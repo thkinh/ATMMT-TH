@@ -2,7 +2,6 @@ package playfairCipher;// encodes text input using the Playfair cipher
 // results (both encode and decode) are output with the table
 // requires a user keyword for the cipher
 // ues letter 'X' for insertion, I replaces J
-
 import java.awt.Point;
 import java.util.Scanner;
 
@@ -18,7 +17,10 @@ public final class Playfair {
 
     // main method to test Playfair method
     public static void main(String[] args) {
+        
         Playfair pf = new Playfair();
+        
+
     }
 
     // main run of the program, Playfair method
@@ -45,7 +47,7 @@ public final class Playfair {
             while (input.equals(""))
                 input = parseString(scan);
             System.out.println();
-
+            scan.close();
             // encodes and then decodes the encoded message
             String output = "";
             switch (choice) {

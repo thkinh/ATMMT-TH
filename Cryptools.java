@@ -1,6 +1,6 @@
 import java.io.Console;
 import java.util.*;
-
+import playfairCipher.Playfair;
 
 class Cryptools
 {
@@ -33,7 +33,7 @@ class Cryptools
                     result += character;
                     continue;
                 }
-
+                
                 character = chars_list.get((chars_list.indexOf(character) + key) % 26);
                 result += character;
             }
@@ -50,7 +50,7 @@ class Cryptools
         int current_key_pos = 0;
         String result = "";
         System.out.print("Nhap key: ");
-        
+
         String key = sc.nextLine();
         char[] key_elements = key.toCharArray();
         List<Integer> new_key = new ArrayList<Integer>() ;
@@ -61,76 +61,116 @@ class Cryptools
         }
         int key_length = new_key.size();
 
-        for(int i = 0; i<length; i++)
+        System.out.print("Nhap option(d,e): ");
+        String option = sc.nextLine();
+        if (option.equals("e"))
         {
-            char character = input.charAt(i);
-            if (!chars_list.contains(character))
+            for(int i = 0; i<length; i++)
             {
-                result += character;
-                continue;
-            }
-            character = chars_list.get((chars_list.indexOf(character) + new_key.get(current_key_pos)) % 26);
-            current_key_pos++;
-            if(current_key_pos == key_length)
-            {
-                current_key_pos = 0;
-            }
-            result+= character;
+                char character = input.charAt(i);
+                if (!chars_list.contains(character))
+                {
+                    result += character;
+                    continue;
+                }
+                character = chars_list.get((chars_list.indexOf(character) + new_key.get(current_key_pos)) % 26);
+                current_key_pos++;
+                if(current_key_pos == key_length)
+                {
+                    current_key_pos = 0;
+                }
+                result+= character;
+            }   
         }
-
-
+        else if (option.equals("d"))
+        {
+            for(int i = 0; i<length; i++)
+            {
+                char character = input.charAt(i);
+                if (!chars_list.contains(character))
+                {
+                    result += character;
+                    continue;
+                }
+                int delta = chars_list.indexOf(character) - new_key.get(current_key_pos);
+                if (delta < 0) {
+                    delta += 26;
+                }
+                character = chars_list.get(delta);
+                current_key_pos++;
+                if(current_key_pos == key_length)
+                {
+                    current_key_pos = 0;
+                }
+                result+= character;
+            }   
+        }
         return result;
     }
 
-    public static int Find_key_Length(String input) {
-        Map<String, List<Integer>> sequences = new HashMap<>();
-        int minSeqLength = 3;  // Minimum sequence length to consider
-
-        // Step 1: Find all repeated substrings and their positions
-        for (int i = 0; i < input.length() - minSeqLength; i++) {
-            for (int len = minSeqLength; len <= 5; len++) {  // Check sequences of varying lengths
-                if (i + len > input.length()) break;
-                String sequence = input.substring(i, i + len);
-
-                // Store the positions of this sequence in the map
-                if (!sequences.containsKey(sequence)) {
-                    sequences.put(sequence, new ArrayList<>());
-                }
-                sequences.get(sequence).add(i);
+    public final static void clearConsole()
+    {
+        try
+        {
+            final String os = System.getProperty("os.name");
+            
+            if (os.contains("Windows"))
+            {
+                Runtime.getRuntime().exec("cls");
+            }
+            else
+            {
+                Runtime.getRuntime().exec("clear");
             }
         }
-
-        // Step 2: Calculate distances between repeated sequences
-        List<Integer> distances = new ArrayList<>();
-        for (List<Integer> positions : sequences.values()) {
-            if (positions.size() > 1) {
-                for (int i = 1; i < positions.size(); i++) {
-                    int distance = positions.get(i) - positions.get(i - 1);
-                    distances.add(distance);
-                }
-            }
+        catch (final Exception e)
+        {
+            //  Handle any exceptions.
         }
-
-        if (distances.isEmpty()) {
-            return -1;  // No repeating patterns found
-        }
-
-        // Step 3: Find the GCD of all distances
-        int keyLength = distances.get(0);
-        for (int i = 1; i < distances.size(); i++) {
-            keyLength = gcd(keyLength, distances.get(i));
-        }
-
-        return keyLength;
     }
 
-    // Helper function to compute the GCD of two numbers
-    private static int gcd(int a, int b) {
-        if (b == 0) {
-            return a;
-        }
-        return gcd(b, a % b);
+    public static void Print_Menu()
+    {
+        System.out.println("============================================");
+        System.out.println("Lua chon thuat toan muon su dung");
+        System.out.println("1. CaesarCipher");
+        System.out.println("2. PlayfairCipher");
+        System.out.println("3. Vigenere");
+        System.out.println("4. Exit");
+        System.out.println("============================================");
     }
+
+    public static void Start()
+    {
+        String input = "";
+        while (true)
+        {
+            Print_Menu();
+            int choice = sc.nextInt();
+            sc.nextLine(); //Clear "/n" character
+            System.out.println("Nhap van ban:");
+            switch (choice) {
+                case 1:
+                    input = sc.nextLine();
+                    Caesar_Cipher(input);
+                    break;
+                case 2:
+                    Playfair.main(null);
+
+                    break;
+                case 3:
+                    input = sc.nextLine();
+                    String output = Vigenere_Cipher(input);
+                    System.out.println(output);
+                    break;
+                case 4:
+                    return;
+                default:
+                    break;
+            }    
+        }
+    }
+
 
 
 
@@ -138,10 +178,8 @@ class Cryptools
     public static void main(String[] args)
     {
         init();
-        String input = sc.nextLine();
-        int output = Find_key_Length(input);
-
-        System.out.print("Estimated key's length: " + output);
+        Start();   
+        
         sc.close();
     }
 
