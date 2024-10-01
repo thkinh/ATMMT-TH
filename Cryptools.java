@@ -140,37 +140,39 @@ class Cryptools
         System.out.println("============================================");
     }
 
-    public static void Start()
-    {
+    public static void Start() {
         String input = "";
-        while (true)
-        {
+        while (true) {
             Print_Menu();
-            int choice = sc.nextInt();
-            sc.nextLine(); //Clear "/n" character
-            System.out.println("Nhap van ban:");
-            switch (choice) {
-                case 1:
-                    input = sc.nextLine();
-                    Caesar_Cipher(input);
-                    break;
-                case 2:
-                    Playfair.main(null);
-
-                    break;
-                case 3:
-                    input = sc.nextLine();
-                    String output = Vigenere_Cipher(input);
-                    System.out.println(output);
-                    break;
-                case 4:
-                    return;
-                default:
-                    break;
-            }    
+            if (sc.hasNextInt()) {
+                int choice = sc.nextInt();
+                sc.nextLine(); //Clear "/n" character
+                System.out.println("Nhap van ban:");
+                switch (choice) {
+                    case 1:
+                        input = sc.nextLine();
+                        Caesar_Cipher(input);
+                        break;
+                    case 2:
+                        Playfair ins = new Playfair();
+                        // Replace with the actual method call
+                        break;
+                    case 3:
+                        input = sc.nextLine();
+                        String output = Vigenere_Cipher(input);
+                        System.out.println(output);
+                        break;
+                    case 4:
+                        return;
+                    default:
+                        break;
+                }
+            } else {
+                System.out.println("Invalid input");
+                sc.next();
+            }
         }
     }
-
 
 
 

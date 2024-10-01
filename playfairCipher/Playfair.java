@@ -5,28 +5,28 @@ package playfairCipher;// encodes text input using the Playfair cipher
 import java.awt.Point;
 import java.util.Scanner;
 
-public final class Playfair {
+public class Playfair {
     // length of digraph array
-    private int length = 0;
+    public int length = 0;
 
     // table for Playfair cipher
-    private String[][] table;
+    public String[][] table;
 
     // choice to encode or decode
-    private String choice;
+    public String choice;
 
     // main method to test Playfair method
-    public static void main(String[] args) {
-        
-        Playfair pf = new Playfair();
-        
+/*    public static void main(String[] args) {
 
-    }
+        Playfair pf = new Playfair();
+
+    }*/
 
     // main run of the program, Playfair method
-    private Playfair() {
+    public Playfair() {
         // let user choose to encode or decode
-        try (Scanner scan = new Scanner(System.in)) {
+        Scanner scan = new Scanner(System.in);
+
             do {
                 System.out.println("Type 'e' to encode or 'd' to decode a message.");
                 choice = scan.nextLine();
@@ -47,7 +47,7 @@ public final class Playfair {
             while (input.equals(""))
                 input = parseString(scan);
             System.out.println();
-            scan.close();
+
             // encodes and then decodes the encoded message
             String output = "";
             switch (choice) {
@@ -66,7 +66,7 @@ public final class Playfair {
             // output the results to user
             this.printTable(table);
             this.printResults(output);
-        }
+
     }
     // parses any input string to remove numbers, punctuation,
     // replaces any J's with I's, and makes string all caps
