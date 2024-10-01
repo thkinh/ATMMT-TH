@@ -76,10 +76,10 @@ public final class Playfair {
             line = line.toUpperCase();
             line = line.replaceAll("[^A-Z]", "");
             line = line.replace("J", "I");
+            line = line.replace(" ", "");
             parse.append(line);
         }
         return parse.toString();
-        //parse = parse.replace("[\\r\\n]", "");
     }
 
     // creates the cipher table based on some input string (already parsed)
