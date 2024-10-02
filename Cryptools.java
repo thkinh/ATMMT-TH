@@ -18,12 +18,36 @@ class Cryptools
     {
         int length = input.length();
         input = input.toLowerCase();
-
         String result = "";
-
-        
-        for(int key = 1; key < 27; key++)
+        System.out.print("Choose encrypt with key, decrypt with key, or brute force?: ");
+        String option = sc.nextLine();
+        if (option.equals("b"))
         {
+            for(int key = 1; key < 27; key++)
+            {
+                result = "";
+                for(int i = 0; i < length; i++)
+                {
+                    char character = input.charAt(i);
+                    if (!chars_list.contains(character))
+                    {
+                        result += character;
+                        continue;
+                    }
+                    
+                    character = chars_list.get((chars_list.indexOf(character) + key) % 26);
+                    result += character;
+                }
+                System.out.print(result + "\n");
+                System.out.print("==================================");
+                c.readLine();
+            }
+        }
+        System.out.print("Enter the key: ");
+        int key = sc.nextInt();
+        sc.nextLine();
+        if (option.equals("e")) {
+            //Encrypt
             result = "";
             for(int i = 0; i < length; i++)
             {
@@ -35,6 +59,28 @@ class Cryptools
                 }
                 
                 character = chars_list.get((chars_list.indexOf(character) + key) % 26);
+                result += character;
+            }
+            System.out.print(result + "\n");
+            System.out.print("==================================");
+            c.readLine();
+        }
+        else if (option.equals("d")) {
+            //Decrypt
+            result = "";
+            for(int i = 0; i < length; i++)
+            {
+                char character = input.charAt(i);
+                if (!chars_list.contains(character))
+                {
+                    result += character;
+                    continue;
+                }
+                int delta = chars_list.indexOf(character) - key;
+                if (delta < 0) {
+                    delta +=26;
+                }
+                character = chars_list.get(delta);
                 result += character;
             }
             System.out.print(result + "\n");
@@ -173,9 +219,6 @@ class Cryptools
             }
         }
     }
-
-
-
 
     public static void main(String[] args)
     {
